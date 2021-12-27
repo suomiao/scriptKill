@@ -10,7 +10,8 @@ import java.util.List;
 public interface UserInfoDao {
 //    List<UserInfo> getAllList();
     UserInfo get(int id);
-//    void insert(UserInfo userInfo);
-//    void update(UserInfo userInfo);
-//    void delete(int id);
+
+    Integer insert(UserInfo userInfo);
+    Integer update(UserInfo userInfo);
+    Integer delete(Integer id);
 }
