@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UserInfoControll {
 
     private static final Logger log = LoggerFactory.getLogger(UserInfoControll.class);
-//    Logger log = LoggerFactory.getLogger(UserInfoControll.class);
     @Autowired
     UserInfoService userInfoService;
 
