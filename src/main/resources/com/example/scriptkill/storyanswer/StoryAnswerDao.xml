@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.scriptkill.storyanswer.dao.StoryAnswerDao">
+    <sql id="table">sk_story_answer</sql>
+
+    <sql id="updateTable">sk_story_answer</sql>
+
+    <!--    <resultMap id="UserInfoMap" type="com.example.scriptkill.userinfo.entity.UserInfo" >-->
+    <!--        <id column="id" property="id" jdbcType="BIGINT" />-->
+    <!--        <result column="name" property="name" jdbcType="VARCHAR" />-->
+    <!--        <result column="password" property="password" jdbcType="VARCHAR" />-->
+    <!--        <result column="account" property="account" jdbcType="VARCHAR" />-->
+    <!--    </resultMap>-->
+
+    <select id="get" parameterType="Integer" resultType="com.example.scriptkill.storyanswer.entity.StoryAnswer" >
+        select *
+        from <include refid="table"></include>
+        where
+        id=#{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO <include refid="updateTable"/>
+        (
+        id,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag,
+
+        question_id,
+        option,
+        option_val
+        ) VALUES (
+        #{id},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{remarks},
+        #{delFlag},
+
+        #{questionId},
+        #{option},
+        #{optionVal}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE <include refid="updateTable"/> SET
+        update_by = #{updateBy},
+        update_date = #{updateDate},
+        remarks = #{remarks},
+
+        question_id = #{questionId},
+        option = #{option},
+        option_val #{optionVal}
+
+        WHERE del_flag = '0'
+        AND  id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE <include refid="updateTable"/> SET
+        del_flag = '1'
+        WHERE  id = #{id}
+    </update>
+
+</mapper>

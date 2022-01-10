@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.scriptkill.characterstory.dao.CharacterStoryDao">
+    <sql id="table">sk_character_story as q</sql>
+
+    <sql id="updateTable">sk_character_story</sql>
+
+    <sql id="queryColumns">
+        q.id,
+		q.create_by AS "createBy.id",
+		q.create_date,
+		q.update_by AS "updateBy.id",
+		q.update_date,
+		q.remarks,
+		q.del_flag,
+
+        q.story_character_id,
+		q.story_line,
+		q.character_line_name,
+		q.character_story,
+		q.status
+
+    </sql>
+
+    <!--    <resultMap id="UserInfoMap" type="com.example.scriptkill.userinfo.entity.UserInfo" >-->
+    <!--        <id column="id" property="id" jdbcType="BIGINT" />-->
+    <!--        <result column="name" property="name" jdbcType="VARCHAR" />-->
+    <!--        <result column="password" property="password" jdbcType="VARCHAR" />-->
+    <!--        <result column="account" property="account" jdbcType="VARCHAR" />-->
+    <!--    </resultMap>-->
+
+    <select id="get" parameterType="Integer" resultType="com.example.scriptkill.characterstory.entity.CharacterStory" >
+        select
+        <include refid="queryColumns"></include>
+        from <include refid="table"></include>
+        where
+        id=#{id}
+    </select>
+    
+    <select  id="getList" resultType="com.example.scriptkill.characterstory.entity.CharacterStory">
+        select 
+        <include refid="queryColumns"></include>
+        from <include refid="table"></include>
+        q.del_flag = '0'
+        ORDER BY
+        <choose>
+            <when test="orderField == '' ">
+                q.create_date DESC
+            </when>
+            <otherwise>
+                q.${orderField} ${orderDir}
+            </otherwise>
+        </choose>
+        
+    </select>
+
+    <insert id="insert">
+        INSERT INTO <include refid="updateTable"/>
+        (
+        id,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag,
+
+        story_character_id,
+        story_line,
+        character_line_name,
+        character_story,
+        status
+        ) VALUES (
+        #{id},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{remarks},
+        #{delFlag},
+
+        #{storyCharacterId},
+        #{storyLine},
+        #{characterLineName},
+        #{characterStory},
+        #{status}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE <include refid="updateTable"/> SET
+        update_by = #{updateBy},
+        update_date = #{updateDate},
+        remarks = #{remarks},
+
+        story_character_id = #{storyCharacterId},
+        story_line = #{storyLine},
+        character_line_name = #{characterLineName},
+        character_story =  #{characterStory},
+        status =  #{status}
+
+        WHERE del_flag = '0'
+        AND  id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE <include refid="updateTable"/> SET
+        del_flag = '1'
+        WHERE  id = #{id}
+    </update>
+
+</mapper>
